@@ -18,12 +18,12 @@ export class AddCreateAtAndAddUpdateAt1607959248876 implements MigrationInterfac
   }
   
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropColumn('users','createAt')
-    await queryRunner.dropColumn('users','updateAt')
-    await queryRunner.dropColumn('posts','createAt')
-    await queryRunner.dropColumn('posts','updateAt')
-    await queryRunner.dropColumn('comments','createAt')
-    await queryRunner.dropColumn('comments','updateAt')
+    await queryRunner.dropColumn('users','createdAt')
+    await queryRunner.dropColumn('users','updatedAt')
+    await queryRunner.dropColumn('posts','createdAt')
+    await queryRunner.dropColumn('posts','updatedAt')
+    await queryRunner.dropColumn('comments','createdAt')
+    await queryRunner.dropColumn('comments','updatedAt')
   }
   
 }
