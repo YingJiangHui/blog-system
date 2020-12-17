@@ -4,14 +4,16 @@ import axios from 'axios'
 import {useEffect, useState} from 'react'
 import usePosts from "../hooks/usePosts";
 import {getPosts} from "../lib/posts";
-import {NextPage} from "next";
+import {GetServerSideProps, NextPage} from "next";
+import {getDatabaseConnection} from 'lib/getDatabaseConnection';
+import { Post } from 'src/entity/Post';
 
 type Posts = {
-  posts:Post[]
+  posts: Post[]
 }
-const Home:NextPage<Posts> = (props)=> {
+
+const Home: NextPage<Posts> = (props) => {
   const {posts} = props
-  console.log(posts)
   return (
     <div className={styles.container}>
       <h1>文章列表</h1>
@@ -28,26 +30,18 @@ const Home:NextPage<Posts> = (props)=> {
           )
         }
       </ul>
-      <ul>
-        {
-          posts?.map((post) =>
-            <li key={post.id}>
-              <Link href="/blog?[id]" as={`/blog/${post.id}`}>
-                <a>
-                  {post.title}
-                </a>
-              </Link>
-            </li>
-          )
-        }
-      </ul>
     </div>
   )
 }
+
 export default Home
-export async function getStaticProps() {
-  const posts = await getPosts()
+export const getServerSideProps: GetServerSideProps = async (content) => {
+  const connection = await getDatabaseConnection()
+  const {manager} = connection
+  const posts = await manager.find(Post)
   return {
-    props: {posts:JSON.parse(JSON.stringify(posts))},
+    props: {
+      posts: JSON.parse(JSON.stringify(posts))
+    }
   }
 }
