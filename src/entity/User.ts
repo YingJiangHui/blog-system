@@ -1,11 +1,8 @@
-// @ts-ignore
 import {BeforeInsert, Column, CreateDateColumn, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn} from 'typeorm';
 import {Post} from './Post';
 import {Comment} from './Comment';
 import {getDatabaseConnection} from 'lib/getDatabaseConnection';
 const _ = require('lodash');
-
-// @ts-ignore
 import md5 from 'md5'
 type Errors = { username: string[], password: string[], confirmPassword: string[] }
 

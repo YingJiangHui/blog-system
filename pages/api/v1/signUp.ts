@@ -1,4 +1,3 @@
-// @ts-ignore
 import {NextApiRequest,NextApiResponse} from 'next';
 import {getDatabaseConnection} from '../../../lib/getDatabaseConnection';
 import {User} from '../../../src/entity/User';
