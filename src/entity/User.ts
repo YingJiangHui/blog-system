@@ -1,4 +1,5 @@
 import {
+  BeforeInsert,
   Column,
   CreateDateColumn,
   Entity,
@@ -26,4 +27,12 @@ export class User {
   posts: Post[];
   @OneToMany(type => Comment, comment => comment.user)
   comments: Comment[]
+  
+  password:string
+  confirmPassword:string
+  
+  @BeforeInsert()
+  insertPasswordDigest(){
+    this.passwordDigest = this.password
+  }
 }
