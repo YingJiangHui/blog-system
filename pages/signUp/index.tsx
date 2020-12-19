@@ -22,7 +22,7 @@ const signUp: NextPage = () => {
           用户名: <input type="text" name='username'
                       onChange={(e) => setFormData({...formData,username: e?.target?.value})}/>
         </label>
-        {errorInfo.username.length>0&&<div>{errorInfo.username.join(',')}</div>}
+        {errorInfo?.username?.length>0&&<div>{errorInfo?.username?.join(',')}</div>}
       </div>
       <div>
         <label htmlFor="password">
@@ -30,14 +30,14 @@ const signUp: NextPage = () => {
                      onChange={(e) => setFormData({...formData,password: e.target.value})}/>
 
         </label>
-        {errorInfo.password.length>0&&<div>{errorInfo.password.join(',')}</div>}
+        {errorInfo?.password?.length>0&&<div>{errorInfo?.password?.join(',')}</div>}
       </div>
       <div>
         <label htmlFor="passwordConfirm">
           确认密码：<input type="password" name='passwordConfirm' id='passwordConfirm'
                       onChange={(e) => setFormData({...formData,confirmPassword: e.target.value})}/>
         </label>
-        {errorInfo.confirmPassword.length>0&&<div>{errorInfo.confirmPassword.join(',')}</div>}
+        {errorInfo?.confirmPassword?.length>0&&<div>{errorInfo?.confirmPassword?.join(',')}</div>}
       </div>
       <div>
         <input type="submit" value='注册'/>
