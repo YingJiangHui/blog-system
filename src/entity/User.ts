@@ -3,9 +3,10 @@ import {BeforeInsert, Column, CreateDateColumn, Entity, JoinColumn, OneToMany, O
 import {Post} from './Post';
 import {Comment} from './Comment';
 import {getDatabaseConnection} from 'lib/getDatabaseConnection';
+const _ = require('lodash');
+
 // @ts-ignore
 import md5 from 'md5'
-
 type Errors = { username: string[], password: string[], confirmPassword: string[] }
 
 @Entity('users')
@@ -64,5 +65,9 @@ export class User  {
   @BeforeInsert()
   insertPasswordDigest() {
     this.passwordDigest = md5(this.password)
+  }
+  
+  toJSON(){
+    return _.omit(this,['password','confirmPassword','passwordDigest','errors'])
   }
 }
