@@ -1,13 +1,5 @@
-
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  ManyToOne,
-  OneToMany,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn
-} from 'typeorm';
+// @ts-ignore
+import {Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn} from 'typeorm';
 import {User} from './User';
 import {Comment} from './Comment';
 
@@ -23,8 +15,8 @@ export class Post {
   createdAt: Date;
   @UpdateDateColumn()
   updatedAt: Date;
-  @ManyToOne(type => User, user => user.posts)
+  @ManyToOne((type:User) => User, (user:User) => user.posts)
   author: User;
-  @OneToMany(type => Comment, comment => comment.post)
+  @OneToMany((type:Comment) => Comment, (comment:Comment) => comment.post)
   comments: Comment[];
 }
