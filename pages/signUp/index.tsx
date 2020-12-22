@@ -1,5 +1,5 @@
 import {NextPage} from 'next';
-import {FormEvent,useEffect,useState} from 'react';
+import {FormEvent,useEffect,useState, ChangeEvent, useCallback} from 'react';
 import axios,{AxiosResponse} from 'axios';
 
 const signUp: NextPage = () => {
@@ -7,7 +7,7 @@ const signUp: NextPage = () => {
   const [errorInfo,setErrorInfo] = useState({username:[],password:[],confirmPassword:[]})
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    axios.post('/api/v1/signUp',formData).then(response => {
+    axios.post('/api/v1/signIn',formData).then(response => {
       console.log(response);
     }).catch(err => {
       const response:AxiosResponse = err.response
@@ -15,27 +15,30 @@ const signUp: NextPage = () => {
       setErrorInfo(data)
     });
   };
+  const changeInput = useCallback((e:ChangeEvent<HTMLInputElement>)=>{
+    setFormData({...formData,[e.target.name]:e.target.value})
+  },[formData])
   return (<div>
     <form method="POST" onSubmit={onSubmit}>
       <div>
         <label htmlFor="username">
           用户名: <input type="text" name='username'
-                      onChange={(e) => setFormData({...formData,username: e?.target?.value})}/>
+                      onChange={changeInput}/>
         </label>
         {errorInfo?.username?.length>0&&<div>{errorInfo?.username?.join(',')}</div>}
       </div>
       <div>
         <label htmlFor="password">
           密码: <input type="password" name='password'
-                     onChange={(e) => setFormData({...formData,password: e.target.value})}/>
+                     onChange={changeInput}/>
 
         </label>
         {errorInfo?.password?.length>0&&<div>{errorInfo?.password?.join(',')}</div>}
       </div>
       <div>
         <label htmlFor="passwordConfirm">
-          确认密码：<input type="password" name='passwordConfirm' id='passwordConfirm'
-                      onChange={(e) => setFormData({...formData,confirmPassword: e.target.value})}/>
+          确认密码：<input type="password" name='confirmPassword' id='passwordConfirm'
+                      onChange={changeInput}/>
         </label>
         {errorInfo?.confirmPassword?.length>0&&<div>{errorInfo?.confirmPassword?.join(',')}</div>}
       </div>
