@@ -10,7 +10,7 @@ const SignIn: FC<Props> = (props) => {
   const [errorInfo, setErrorInfo] = useState({username: [], password: []})
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    axios.post('/api/v1/signIn', formData).then(response => {
+    axios.post('/api/v1/sessions', formData).then(response => {
       console.log(response);
     }).catch(err => {
       const response: AxiosResponse = err.response
