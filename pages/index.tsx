@@ -37,7 +37,7 @@ const Home: NextPage<Posts> = (props) => {
 }
 
 export default Home
-export const getServerSideProps: GetServerSideProps = async (content) => {
+export const getServerSideProps: GetServerSideProps =  async (context) => {
   const connection = await getDatabaseConnection()
   const {manager} = connection
   const posts = await manager.find(Post)

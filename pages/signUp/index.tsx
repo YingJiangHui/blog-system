@@ -7,8 +7,9 @@ const signUp: NextPage = () => {
   const [errorInfo,setErrorInfo] = useState({username:[],password:[],confirmPassword:[]})
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    axios.post('/api/v1/signIn',formData).then(response => {
-      console.log(response);
+    axios.post('/api/v1/signUp',formData).then(response => {
+      const isSignUp = window.confirm('注册成功点击跳转页面')
+      isSignUp?window.location.href = '/signIn':''
     }).catch(err => {
       const response:AxiosResponse = err.response
       const {data} = response

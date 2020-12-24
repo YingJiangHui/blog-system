@@ -8,5 +8,8 @@ export default function withSession(handler:NextApiHandler) {
     cookieName: 'blog',
     // password: process.env.SECRET_COOKIE_PASSWORD,
     // cookieName: 'next.js/examples/with-iron-session',
+    cookieOptions:{
+      secure:false
+    }
   })
 }
