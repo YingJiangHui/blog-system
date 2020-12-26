@@ -1,13 +1,25 @@
-import {BeforeInsert, Column, CreateDateColumn, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn} from 'typeorm';
+import {
+  BeforeInsert,
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn
+} from 'typeorm';
 import {Post} from './Post';
 import {Comment} from './Comment';
 import {getDatabaseConnection} from 'lib/getDatabaseConnection';
+
 const _ = require('lodash');
 import md5 from 'md5'
+
 type Errors = { username: string[], password: string[], confirmPassword: string[] }
 
 @Entity('users')
-export class User  {
+export class User {
   @PrimaryGeneratedColumn('increment')
   id: number;
   @Column('varchar')
@@ -20,7 +32,7 @@ export class User  {
   updatedAt: Date;
   @OneToMany((type: Post) => Post, (post: Post) => post.author)
   posts: Post[];
-  @OneToMany((type:Comment) => Comment, (comment:Comment) => comment.user)
+  @OneToMany((type: Comment) => Comment, (comment: Comment) => comment.user)
   comments: Comment[]
   
   password: string
@@ -28,28 +40,31 @@ export class User  {
   errors: Errors = {username: [], password: [], confirmPassword: []}
   
   async validate() {
-    if (this.username.trim() === '') {
+    const username = this.username.trim()
+    const password = this.password.trim()
+    const confirmPassword = this.confirmPassword.trim()
+    if (username === '') {
       this.errors.username.push('请输入用户名')
     }
-    if (!/[a-zA-Z0-9]/.test(this.username.trim())) {
+    if (!/[a-zA-Z0-9]/.test(username)) {
       this.errors.username.push('格式不合法');
     }
-    if (this.username.trim().length > 18) {
+    if (username.length > 18) {
       this.errors.username.push('太长');
     }
-    if (this.username.trim().length < 6) {
+    if (username.length < 6) {
       this.errors.username.push('太短');
     }
-    if (this.password.trim() === '') {
+    if (password === '') {
       this.errors.password.push('请输入密码')
     }
-    if (this.confirmPassword.trim() === '') {
+    if (confirmPassword === '') {
       this.errors.confirmPassword.push('请确认密码')
     }
-    if (this.password !== this.confirmPassword) {
+    if (password !== confirmPassword) {
       this.errors.confirmPassword.push('两次密码不相同')
     }
-    const users = await (await getDatabaseConnection()).manager.findOne(User, {where: {username: this.username.trim()}})
+    const users = await (await getDatabaseConnection()).manager.findOne(User, {where: {username: username}})
     if (users) {
       this.errors.username.push('用户名存在')
     }
@@ -64,7 +79,7 @@ export class User  {
     this.passwordDigest = md5(this.password)
   }
   
-  toJSON(){
-    return _.omit(this,['password','confirmPassword','passwordDigest','errors'])
+  toJSON() {
+    return _.omit(this, ['password', 'confirmPassword', 'passwordDigest', 'errors'])
   }
 }

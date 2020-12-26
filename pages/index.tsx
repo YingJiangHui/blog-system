@@ -17,7 +17,7 @@ const Home: NextPage<Posts> = (props) => {
   return (
     <div className={styles.container}>
       <a href="/signUp">注册</a>
-      <a href="/signIn">登入</a>
+      <a href="/signIn">登录</a>
       <h1>文章列表</h1>
       <ul>
         {
