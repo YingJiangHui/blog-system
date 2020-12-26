@@ -28,11 +28,11 @@ function useForm<T>(props:UseFormProps<T>) {
         e[key] = [];
       }
     }
+    console.log(e);
     return e
   })
   const [loading,setLoading] = useState(false)
   const onSubmit = async (e:FormEvent<HTMLFormElement>)=>{
-    console.log('fuck')
     e.preventDefault()
     setLoading(true)
     submit.request(formData).then((response)=>{
@@ -45,7 +45,7 @@ function useForm<T>(props:UseFormProps<T>) {
       submit.onError(err)
     })
   }
-  const onChange = (e:ChangeEvent<HTMLInputElement>)=>{
+  const onChange = (e:ChangeEvent<HTMLInputElement|HTMLTextAreaElement>)=>{
     console.log(e.target.name,e.target.value)
     setFormData({...formData,[e.target.name]:e.target.value})
   }
@@ -58,7 +58,7 @@ function useForm<T>(props:UseFormProps<T>) {
               {field.label}：
               {
                 field.type ==='textarea'?
-                <textarea>{formData[field.key]}</textarea>:
+                <textarea name={field.key.toString()} onChange={onChange} defaultValue={formData[field.key].toString()}/>:
                 <input type={field.type} name={field.key.toString()} defaultValue={formData[field.key].toString()} onChange={onChange}/>
               }
             </label>
@@ -70,7 +70,7 @@ function useForm<T>(props:UseFormProps<T>) {
       }
       {submit.buttons}
     </form>
-  ),[formData,errors])
+  ),[formData,errors,onSubmit])
   
   return {form,loading}
 }
