@@ -41,7 +41,13 @@ function useForm<T>(props:UseFormProps<T>) {
       console.log(response)
     },(err)=>{
       setLoading(false)
-      setErrors(err.response.data)
+      if(err.response.status === 422){
+        setErrors(err.response.data)
+      }else if(err.response.status === 401){
+        if(window.confirm('用户登录，点击跳转登录页面')){
+          window.location.href = `/sign_in?returnTo=${encodeURIComponent(window.location.pathname)}`;
+        }
+      }
       submit.onError(err)
     })
   }

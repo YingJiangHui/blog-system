@@ -8,7 +8,6 @@ class SignIn {
   errors:{username:string[],password:string[]} = {username:[],password:[]}
   
   constructor(user:{username:string,password:string}) {
-    console.log(user)
     const {username,password} = user
     this.username = username
     this.password = password

@@ -4,6 +4,7 @@ import {GetServerSideProps, GetServerSidePropsContext} from "next";
 import withSession from "../../lib/whitSession";
 import {User} from "../../src/entity/User";
 import useForm from "../../hooks/useForm";
+import qs from 'querystring'
 
 interface Props {
   user: User
@@ -29,9 +30,12 @@ const SignIn: FC<Props> = (props) => {
     ],
     submit:{
       onSuccess:(response)=>{
-        console.log(response);
+        window.alert('登录成功')
+        const query = qs.parse(window.location.search.substr(1));
+        window.location.href = query.returnTo.toString();
       },
-      onError:()=>{},
+      onError:()=>{
+      },
       request: (formData)=> axios.post('/api/v1/sessions',formData),
       buttons:[<button type='submit'>提交</button>]
     },
