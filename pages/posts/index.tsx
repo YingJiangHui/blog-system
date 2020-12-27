@@ -2,6 +2,7 @@ import Link from 'next/link'
 import {GetServerSideProps, NextPage} from "next";
 import {getDatabaseConnection} from 'lib/getDatabaseConnection';
 import { Post } from 'src/entity/Post';
+import qs from 'querystring'
 
 type Posts = {
   posts: Post[]
@@ -33,7 +34,15 @@ export default PostsPage
 export const getServerSideProps: GetServerSideProps =  async (context) => {
   const connection = await getDatabaseConnection()
   const {manager} = connection
-  const posts = await manager.find(Post)
+  const prePost = 3
+  const index = context.req.url.indexOf('?')
+  const search = context.req.url.substr(index+1)
+  const query = qs.parse(search).page?.toString()||'1'
+  const page = parseInt(query)
+  const [posts,count] = await manager.findAndCount(Post,{
+    skip: (page-1)*prePost,
+    take:prePost
+  })
   return {
     props: {
       posts: JSON.parse(JSON.stringify(posts))
