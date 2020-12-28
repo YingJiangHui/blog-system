@@ -3,17 +3,18 @@ import {GetServerSideProps, NextPage} from "next";
 import {getDatabaseConnection} from 'lib/getDatabaseConnection';
 import { Post } from 'src/entity/Post';
 import qs from 'querystring'
+import usePaging from "../../hooks/usePager";
 
 type Posts = {
   posts: Post[],
   totalPage:number,
-  totalPosts:number;
+  totalElement:number;
   currentPage:number
 }
 
 const PostsPage: NextPage<Posts> = (props) => {
-  const {posts,totalPage,totalPosts,currentPage} = props
-  
+  const {posts,totalPage,totalElement,currentPage} = props
+  const {paging} = usePaging({totalElement,currentPage,totalPage})
   return (
     <div>
       <h1>文章列表{currentPage}/{totalPage}</h1>
@@ -30,7 +31,9 @@ const PostsPage: NextPage<Posts> = (props) => {
           )
         }
       </ul>
-      {currentPage-1>0&&<Link href={`/posts?page=${currentPage-1}`}><a>上一页</a></Link>} {currentPage+1<=totalPage&& <Link href={`/posts?page=${currentPage+1}`}><a>下一页</a></Link>}
+      {
+        paging
+      }
     </div>
   )
 }
@@ -39,7 +42,7 @@ export default PostsPage
 export const getServerSideProps: GetServerSideProps =  async (context) => {
   const connection = await getDatabaseConnection()
   const {manager} = connection
-  const prePost = 3
+  const prePost = 1
   const index = context.req.url.indexOf('?')
   const search = context.req.url.substr(index+1)
   const query = qs.parse(search).page?.toString()||'1'
