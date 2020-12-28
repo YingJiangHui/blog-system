@@ -5,14 +5,18 @@ import { Post } from 'src/entity/Post';
 import qs from 'querystring'
 
 type Posts = {
-  posts: Post[]
+  posts: Post[],
+  totalPage:number,
+  totalPosts:number;
+  currentPage:number
 }
 
 const PostsPage: NextPage<Posts> = (props) => {
-  const {posts} = props
+  const {posts,totalPage,totalPosts,currentPage} = props
+  
   return (
     <div>
-      <h1>文章列表</h1>
+      <h1>文章列表{currentPage}/{totalPage}</h1>
       <ul>
         {
           posts?.map((post) =>
@@ -26,6 +30,7 @@ const PostsPage: NextPage<Posts> = (props) => {
           )
         }
       </ul>
+      {currentPage-1>0&&<Link href={`/posts?page=${currentPage-1}`}><a>上一页</a></Link>} {currentPage+1<=totalPage&& <Link href={`/posts?page=${currentPage+1}`}><a>下一页</a></Link>}
     </div>
   )
 }
@@ -45,7 +50,10 @@ export const getServerSideProps: GetServerSideProps =  async (context) => {
   })
   return {
     props: {
-      posts: JSON.parse(JSON.stringify(posts))
+      posts: JSON.parse(JSON.stringify(posts)),
+      totalPage: Math.ceil(count/prePost),
+      totalPosts:count,
+      currentPage:page
     }
   }
 }
