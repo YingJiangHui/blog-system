@@ -4182,8 +4182,8 @@ next-images@^1.4.0:
 
 next-iron-session@^4.1.10:
   version "4.1.10"
-  resolved "https://registry.npmjs.org/next-iron-session/-/next-iron-session-4.1.10.tgz#9862f3a256b162652c8bf6374cc7a10eda1dc9a9"
-  integrity sha512-YT728PgvfXjzrGOsERKSeiTPxR4Yo1nfmcgTDb93aHucjQAlZ/DCvGc4vRhibvFu5beUo5jFRgyJOcS/caKFCw==
+  resolved "https://registry.npm.taobao.org/next-iron-session/download/next-iron-session-4.1.10.tgz#9862f3a256b162652c8bf6374cc7a10eda1dc9a9"
+  integrity sha1-mGLzolaxYmUsi/Y3TMehDtodyak=
   dependencies:
     array.prototype.flat "^1.2.3"
     clone "^2.1.2"
