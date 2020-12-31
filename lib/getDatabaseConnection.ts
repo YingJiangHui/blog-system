@@ -12,6 +12,7 @@ const promise = (async () => {
   // @ts-ignore
   return createConnection({
     ...config,
+    database:process.env.NODE_ENV === 'production'?'blog_production':'blog_development',
     entities:[Post,Comment,User]
   })
 })()
