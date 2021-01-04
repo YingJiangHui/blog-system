@@ -6,10 +6,10 @@ function MyApp({Component, pageProps}) {
   return (
     <>
       <Head>
-        <title>Create Next App</title>
+        <title>makabaka blog site</title>
         <link rel="icon" href="/favicon.ico"/>
       </Head>
-      <Link href='/'><a>返回首页</a></Link>
+      <Link href='/'><a>logo</a></Link>
       <Component {...pageProps}/>
     </>
   )
