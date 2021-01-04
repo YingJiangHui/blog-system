@@ -32,6 +32,7 @@ const SignIn: FC<Props> = (props) => {
       onSuccess:(response)=>{
         window.alert('登录成功')
         const query = qs.parse(window.location.search.substr(1));
+        if(query?.returnTo)
         window.location.href = query.returnTo.toString();
       },
       onError:()=>{
