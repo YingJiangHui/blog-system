@@ -6,7 +6,7 @@ import qs from 'querystring'
 import usePaging from "../../hooks/usePager";
 import React from 'react';
 
-type Posts = {
+export type Posts = {
   posts: Post[],
   totalPage:number,
   totalElement:number;
@@ -23,7 +23,7 @@ const PostsPage: NextPage<Posts> = (props) => {
         {
           posts?.map((post) =>
             <li key={post.id}>
-              <Link href="/posts?[id]" as={`/posts/${post.id}`}>
+              <Link href="/posts/[id].js" as={`/posts/${post.id}`}>
                 <a>
                   {post.title}
                 </a>
