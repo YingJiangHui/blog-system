@@ -1,6 +1,7 @@
 import {Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn} from 'typeorm';
 import {User} from './User';
 import {Comment} from './Comment';
+import _ from 'lodash'
 interface Errors {title:string[],content:string[]}
 
 @Entity('posts')
@@ -17,7 +18,7 @@ export class Post {
   updatedAt: Date;
   @ManyToOne((type:User) => User, (user:User) => user.posts)
   author: User;
-  @OneToMany((type:Comment) => Comment, (comment:Comment) => comment.post)
+  @OneToMany('Post','Comment')
   comments: Comment[];
   
   errors:Errors = {title:[],content:[]}
@@ -37,5 +38,5 @@ export class Post {
   hasError() {
     return Boolean(Object.values(this.errors).find((item) => item?.length > 0))
   }
-
+  toJSON(){return _.omit(this,['errors'])}
 }

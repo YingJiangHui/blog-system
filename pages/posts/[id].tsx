@@ -4,6 +4,7 @@ import {GetStaticProps,GetServerSideProps, NextPage} from 'next';
 import { getDatabaseConnection } from 'lib/getDatabaseConnection';
 import { Post } from 'src/entity/Post';
 import axios from 'axios'
+import Link from 'next/link';
 
 type Props = {
   post: Post
@@ -12,9 +13,7 @@ type Props = {
 const postsShow: NextPage<Props> = (props) => {
   const {post} = props;
   const handleDelete = ()=>{
-    axios({
-      method:'delete',
-      url:'/api/v1/posts',
+    axios.delete('/api/v1/posts',{
       data:{
         id: post.id
       }
@@ -24,10 +23,16 @@ const postsShow: NextPage<Props> = (props) => {
       console.log(err)
     })
   }
+  
+
+  
   return (
     <div>
       <h1>{post?.title}</h1>
-      <button onClick={handleDelete}>删除文章</button>
+      <a onClick={handleDelete}>删除文章</a>
+      <Link href={`/posts/editor?id=${post.id}`}>
+        <a >编辑文章</a>
+      </Link>
       <article dangerouslySetInnerHTML={   {__html: post?.content}  } />
     </div>
   );
