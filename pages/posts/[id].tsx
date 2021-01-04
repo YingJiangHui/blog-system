@@ -3,6 +3,7 @@ import {getPost, getPostIds} from '../../lib/posts';
 import {GetStaticProps,GetServerSideProps, NextPage} from 'next';
 import { getDatabaseConnection } from 'lib/getDatabaseConnection';
 import { Post } from 'src/entity/Post';
+import axios from 'axios'
 
 type Props = {
   post: Post
@@ -10,12 +11,24 @@ type Props = {
 
 const postsShow: NextPage<Props> = (props) => {
   const {post} = props;
-  console.log(props)
+  const handleDelete = ()=>{
+    axios({
+      method:'delete',
+      url:'/api/v1/posts',
+      data:{
+        id: post.id
+      }
+    }).then((response)=>{
+      window.location.href = '/posts'
+    }).catch((err)=>{
+      console.log(err)
+    })
+  }
   return (
     <div>
       <h1>{post?.title}</h1>
-      <article dangerouslySetInnerHTML={   {__html: post?.content}  }>
-      </article>
+      <button onClick={handleDelete}>删除文章</button>
+      <article dangerouslySetInnerHTML={   {__html: post?.content}  } />
     </div>
   );
 };
