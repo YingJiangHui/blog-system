@@ -4,6 +4,7 @@ import {getDatabaseConnection} from 'lib/getDatabaseConnection';
 import { Post } from 'src/entity/Post';
 import qs from 'querystring'
 import usePaging from "../../hooks/usePager";
+import React from 'react';
 
 type Posts = {
   posts: Post[],
