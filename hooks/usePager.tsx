@@ -10,7 +10,10 @@ interface Options {
 
 const usePaging = (options: Options) => {
   const {totalPage,currentPage,totalElement} = options;
-  const constrPagingButton = useCallback(() => _.union([1].concat([-3,-2,-1,0,1,2,3].map((item) => currentPage + item > 1 && currentPage + item < totalPage ? currentPage + item : -2).concat([totalPage]))).sort().filter((item) => item !== -2).reduce((a,b,index,arr) => arr[index] - arr[index - 1] > 1 ? [...a,-1,b] : [...a,b],[]),[currentPage]);
+  const constrPagingButton = useCallback(() =>
+    totalPage !== 0?_.union([1].concat([-3,-2,-1,0,1,2,3]
+    .map((item) => currentPage + item > 1 && currentPage + item < totalPage ? currentPage + item : -2)
+    .concat([totalPage]))).sort().filter((item) => item !== -2).reduce((a,b,index,arr) => arr[index] - arr[index - 1] > 1 ? [...a,-1,b] : [...a,b],[]):[],[currentPage]);
   
   const [pageList,setPageList] = useState<number[]>();
   useEffect(() => {
