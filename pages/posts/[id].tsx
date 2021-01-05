@@ -1,17 +1,19 @@
 import React from 'react';
 import {getPost, getPostIds} from '../../lib/posts';
-import {GetStaticProps,GetServerSideProps, NextPage} from 'next';
+import {GetStaticProps,GetServerSideProps,NextPage,GetServerSidePropsContext} from 'next';
 import { getDatabaseConnection } from 'lib/getDatabaseConnection';
 import { Post } from 'src/entity/Post';
 import axios from 'axios'
 import Link from 'next/link';
+import withSession from '../../lib/whitSession';
 
 type Props = {
-  post: Post
+  post: Post,
+  isControl:boolean
 }
 
 const postsShow: NextPage<Props> = (props) => {
-  const {post} = props;
+  const {post,isControl} = props;
   const handleDelete = ()=>{
     axios.delete('/api/v1/posts',{
       data:{
@@ -30,10 +32,14 @@ const postsShow: NextPage<Props> = (props) => {
     <div>
       <h1>{post?.title}</h1>
       <p>作者：{post.author.username}</p>
-      <button onClick={handleDelete}>删除</button>
-      <Link href={`/posts/${post.id}/editor`}>
+      {
+        isControl&&<>
+        <button onClick={handleDelete}>删除</button>
+        <Link href={`/posts/${post.id}/editor`}>
         <a>编辑</a>
-      </Link>
+        </Link>
+        </>
+      }
       <article dangerouslySetInnerHTML={   {__html: post?.content}  } />
     </div>
   );
@@ -41,7 +47,7 @@ const postsShow: NextPage<Props> = (props) => {
 
 export default postsShow;
 
-export const getServerSideProps:GetServerSideProps<any,{id:string}> = async(context)=>{
+export const getServerSideProps: GetServerSideProps = withSession(async (context:GetServerSidePropsContext):Promise<{ props: {[key:string]:any}  }> => {
   const connection = await getDatabaseConnection()
   const {manager} = connection
   const post = await manager.findOne(Post,{
@@ -50,9 +56,12 @@ export const getServerSideProps:GetServerSideProps<any,{id:string}> = async(cont
     },
     relations:['author'],
   })
+  // @ts-ignore
+  const currentUser = context.req.session.get('currentUser')
   return {
     props:{
-      post:JSON.parse(JSON.stringify(post))
+      post:JSON.parse(JSON.stringify(post)),
+      isControl: currentUser === post.author.username
     }
   }
-}
+})
