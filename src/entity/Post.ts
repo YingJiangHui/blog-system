@@ -18,7 +18,7 @@ export class Post {
   updatedAt: Date;
   @ManyToOne('User', 'posts')
   author: User;
-  @OneToMany((type:Comment) => Comment, (comment:Comment) => comment.post)
+  @OneToMany('Comment','post')
   comments: Comment[];
   
   errors:Errors = {title:[],content:[],message:[]}

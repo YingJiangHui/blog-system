@@ -4,7 +4,6 @@ import {Post} from '../../../src/entity/Post';
 import {getDatabaseConnection} from '../../../lib/getDatabaseConnection';
 import withSession from '../../../lib/whitSession';
 import {User} from '../../../src/entity/User';
-import {EntityManager} from 'typeorm/index';
 
 export default withSession(async(req: NextApiRequest,res: NextApiResponse) => {
   const GET = async() => {

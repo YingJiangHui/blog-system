@@ -12,8 +12,8 @@ interface UseFormProps<T> {
   fields:Array<Field<T>>
   submit: {
     request: (formData: T) => Promise<AxiosResponse<T>>,
-    onSuccess: (response:AxiosResponse<T>) => void,
-    onError: (err:any) => void
+    onSuccess?: (response:AxiosResponse<T>) => void,
+    onError?: (err:any) => void
     buttons:React.ReactChild[]
   }
 }
