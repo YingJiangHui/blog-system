@@ -37,6 +37,7 @@ export default withSession(async(req: NextApiRequest,res: NextApiResponse) => {
             username
           }
         });
+        console.log(posts)
         await manager.save(posts);
         res.json({posts:posts})
       },(errors)=>{
@@ -46,9 +47,17 @@ export default withSession(async(req: NextApiRequest,res: NextApiResponse) => {
     },'DELETE': async() => {
       const {manager} = await getDatabaseConnection();
       const body = req.body;
-      res.statusCode = 200;
-      await manager.delete(Post,body.id);
-      res.json({postsId:body.id});
+      const username = req.session.get('currentUser')
+      const post = await manager.findOne(Post,{where:{id:body.id},relations:['author']})
+      if(post.author.username === username){
+        await manager.delete(Post,body.id);
+        res.json({postsId:body.id});
+        res.statusCode = 200;
+      }else{
+        res.statusCode = 400;
+        res.json({message:'你没有权限删除该博客'})
+      }
+      
     },'PATCH':async()=>{
       updatePosts().then(async ({manager,posts})=>{
         const body = req.body;

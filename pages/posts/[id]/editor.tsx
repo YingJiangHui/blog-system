@@ -1,11 +1,11 @@
 import React from 'react'
 import {GetServerSideProps,NextPage} from 'next';
-import useForm from "../../hooks/useForm";
+import useForm from "../../../hooks/useForm";
 import axios from "axios";
 import qs from "querystring";
 import exp from 'constants';
-import {getDatabaseConnection} from '../../lib/getDatabaseConnection';
-import {Post} from '../../src/entity/Post';
+import {getDatabaseConnection} from '../../../lib/getDatabaseConnection';
+import {Post} from '../../../src/entity/Post';
 
 interface Props {
   posts:{title:string,content:string,id:number}
@@ -44,11 +44,7 @@ export default UpdatePosts
 const getServerSideProps:GetServerSideProps = async(context)=>{
   const query =  context.query
   const {manager} = await getDatabaseConnection()
-  const posts = await manager.findOne(Post,{
-    where:{
-      id:query?.id
-    }
-  })
+  const posts = await manager.findOne(Post,query.id.toString())
   return {
     props:{
       posts:JSON.parse(JSON.stringify(posts))

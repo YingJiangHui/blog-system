@@ -49,7 +49,7 @@ export const getServerSideProps: GetServerSideProps =  async (context) => {
   const query = qs.parse(search).page?.toString()||'1'
   const page = parseInt(query)
   const [posts,count] = await manager.findAndCount(Post,{
-    skip: (page-1)*prePost,
+    skip: (page-10)*prePost,
     take:prePost
   })
   return {

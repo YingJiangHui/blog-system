@@ -20,7 +20,7 @@ const postsShow: NextPage<Props> = (props) => {
     }).then((response)=>{
       window.location.href = '/posts'
     }).catch((err)=>{
-      console.log(err)
+      alert(err.response.data.message)
     })
   }
   
@@ -29,9 +29,9 @@ const postsShow: NextPage<Props> = (props) => {
   return (
     <div>
       <h1>{post?.title}</h1>
-      <a onClick={handleDelete}>删除文章</a>
-      <Link href={`/posts/editor?id=${post.id}`}>
-        <a >编辑文章</a>
+      <button onClick={handleDelete}>删除</button>
+      <Link href={`/posts/${post.id}/editor`}>
+        <a>编辑</a>
       </Link>
       <article dangerouslySetInnerHTML={   {__html: post?.content}  } />
     </div>
