@@ -43,13 +43,13 @@ export default PostsPage
 export const getServerSideProps: GetServerSideProps =  async (context) => {
   const connection = await getDatabaseConnection()
   const {manager} = connection
-  const prePost = 1
+  const prePost = 10
   const index = context.req.url.indexOf('?')
   const search = context.req.url.substr(index+1)
   const query = qs.parse(search).page?.toString()||'1'
   const page = parseInt(query)
   const [posts,count] = await manager.findAndCount(Post,{
-    skip: (page-10)*prePost,
+    skip: (page-1)*prePost,
     take:prePost
   })
   return {

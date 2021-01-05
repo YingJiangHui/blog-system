@@ -20,7 +20,7 @@ const postsShow: NextPage<Props> = (props) => {
     }).then((response)=>{
       window.location.href = '/posts'
     }).catch((err)=>{
-      alert(err.response.data.message)
+      alert(err.response.data['message']||'删除失败')
     })
   }
   
@@ -29,6 +29,7 @@ const postsShow: NextPage<Props> = (props) => {
   return (
     <div>
       <h1>{post?.title}</h1>
+      <p>作者：{post.author.username}</p>
       <button onClick={handleDelete}>删除</button>
       <Link href={`/posts/${post.id}/editor`}>
         <a>编辑</a>
@@ -43,7 +44,12 @@ export default postsShow;
 export const getServerSideProps:GetServerSideProps<any,{id:string}> = async(context)=>{
   const connection = await getDatabaseConnection()
   const {manager} = connection
-  const post = await manager.findOne(Post,context.params.id)
+  const post = await manager.findOne(Post,{
+    where:{
+      id:context.params.id
+    },
+    relations:['author'],
+  })
   return {
     props:{
       post:JSON.parse(JSON.stringify(post))

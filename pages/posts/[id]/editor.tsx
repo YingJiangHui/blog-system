@@ -20,7 +20,8 @@ const UpdatePosts: NextPage<Props> = (props) => {
       {type: 'textarea', key: 'content', label: '博客内容'}
     ],
     submit: {
-      onError: () => {
+      onError: (err) => {
+          alert(err.response.data['message']||'跟新失败')
       },
       onSuccess: () => {
         if (window.confirm('跟新成功，点击跳转文章列表'))
