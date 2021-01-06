@@ -8,8 +8,8 @@ git apply migrate.patch;
 yarn compile &&
 yarn migration:run &&
 git reset --hard HEAD &&
-docker build -t fang/node-web-app . &&
+docker build -t ying/node-web-app . &&
 docker kill app &&
 docker rm app &&
-docker run --name app --network=host -p 3000:3000 -d fang/node-web-app &&
+docker run --name app --network=host -p 3000:3000 -d ying/node-web-app &&
 echo 'OK!'
