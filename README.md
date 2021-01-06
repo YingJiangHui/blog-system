@@ -58,6 +58,7 @@ npm run dev
 yarn build
 yarn start
 ```
+
 ```bash
 git push
 ssh blog@dev1 'bash -s' < bin/deploy.sh
