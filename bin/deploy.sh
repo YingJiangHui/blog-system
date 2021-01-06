@@ -1,12 +1,12 @@
 echo 'start';
-docker start 98a &&
+docker start f5b1 &&
 cd /home/blog/app/ &&
 git pull &&
 yarn install --production=false &&
 yarn build &&
 git apply migrate.patch;
 yarn compile &&
-yarn m:run &&
+yarn migration:run &&
 git reset --hard HEAD &&
 docker build -t fang/node-web-app . &&
 docker kill app &&
