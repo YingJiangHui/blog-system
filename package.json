@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "concurrently \"next dev\" \"babel -w ./src --out-dir dist --extensions .ts,.tsx\"",
+    "dev": "concurrently \"next dev\" \"yarn compile:watch\"",
+    "compile:watch" : "babel -w ./src --out-dir dist --extensions .ts,.tsx",
+    "compile" : "babel ./src --out-dir dist --extensions .ts,.tsx",
     "build": "next build",
     "start": "next start",
     "migration:create": "typeorm migration:create",
@@ -15,6 +17,7 @@
     "@babel/cli": "^7.10.1",
     "@types/md5": "^2.2.1",
     "axios": "^0.21.0",
+    "github-markdown-css": "^4.0.0",
     "global": "^4.4.0",
     "gray-matter": "^4.0.2",
     "lodash": "^4.17.20",

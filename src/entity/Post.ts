@@ -2,7 +2,7 @@ import {Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGenerated
 import {User} from './User';
 import {Comment} from './Comment';
 import _ from 'lodash'
-interface Errors {title:string[],content:string[]}
+interface Errors {title:string[],content:string[],message:string[]}
 
 @Entity('posts')
 export class Post {
@@ -16,17 +16,19 @@ export class Post {
   createdAt: Date;
   @UpdateDateColumn()
   updatedAt: Date;
-  @ManyToOne((type:User) => User, (user:User) => user.posts)
+  @ManyToOne('User', 'posts')
   author: User;
-  @OneToMany('Post','Comment')
+  @OneToMany('Comment','post')
   comments: Comment[];
   
-  errors:Errors = {title:[],content:[]}
+  errors:Errors = {title:[],content:[],message:[]}
   
-  validate(){
+  validate(currentUsername:string){
     const title = this.title.trim()
     const content = this.content.trim()
-
+    if(currentUsername !== this.author.username){
+      this.errors.message.push('权限不足')
+    }
     if (title===''){
       this.errors.title.push('文章名称不可为空')
     }
@@ -34,7 +36,7 @@ export class Post {
       this.errors.content.push('文章内容不可为空')
     }
   }
-  
+
   hasError() {
     return Boolean(Object.values(this.errors).find((item) => item?.length > 0))
   }

@@ -1,4 +1,5 @@
 import "../styles/globals.css"
+import 'github-markdown-css'
 import Head from "next/head"
 import Link from "next/link"
 
@@ -27,7 +28,9 @@ function MyApp({Component, pageProps}) {
           </div>
         </header>
         <main className="main">
-          <Component {...pageProps}/>
+          <div className="content">
+            <Component {...pageProps}/>
+          </div>
         </main>
         <footer className="footer">&copy;ying</footer>
       <style jsx>{`
@@ -35,14 +38,17 @@ function MyApp({Component, pageProps}) {
           flex-grow: 1;
         }
         .header{
+          background: #fff;
           padding-top: 1em;         
           padding-bottom: 1em;         
           border-bottom: 1px solid rgba(0,0,0,0.1);
           box-shadow: 0 0 5px rgba(0,0,0,0.1);
+          display:flex;
+          justify-content: center;
         }
         .header>.container{
-         margin-right: 12em;
-          margin-left: 12em;
+          max-width: 968px;
+          flex-grow: 1;
           display:flex;
           justify-content: space-between;
         }
@@ -56,8 +62,19 @@ function MyApp({Component, pageProps}) {
         .header ol>li:first-child{
           margin-left: 0;
         }
+        .main{          
+          background: #f4f4f4;
+          display:flex;
+          justify-content: center;
+        }
+        .main>.content{
+          padding: 0.7em 1.6em;
+          background: #fff;
+          max-width: 968px;
+          flex-grow: 1;
+        }
         .footer{
-          box-shadow: 0 0 5px rgba(0,0,0,0.1);
+          background: #fff;
           border-top: 1px solid rgba(0,0,0,0.1);
           text-align: center;
           padding-bottom: 2em;

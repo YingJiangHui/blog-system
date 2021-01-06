@@ -1,0 +1,31 @@
+Index: src/entity/User.ts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/entity/User.ts	(revision 85475412cd3cd7ea878c691c5a910b64072e3281)
++++ src/entity/User.ts	(revision e91156531f862616d60bb41f79042b87bdc82028)
+@@ -11,7 +11,7 @@
+ } from 'typeorm';
+ import {Post} from './Post';
+ import {Comment} from './Comment';
+-import {getDatabaseConnection} from 'lib/getDatabaseConnection';
++// import {getDatabaseConnection} from '../../lib/getDatabaseConnection';
+ 
+ const _ = require('lodash');
+ import md5 from 'md5'
+@@ -64,10 +64,10 @@
+     if (password !== confirmPassword) {
+       this.errors.confirmPassword.push('两次密码不相同')
+     }
+-    const users = await (await getDatabaseConnection()).manager.findOne(User, {where: {username: username}})
+-    if (users) {
+-      this.errors.username.push('用户名存在')
+-    }
++    // const users = await (await getDatabaseConnection()).manager.findOne(User, {where: {username: username}})
++    // if (users) {
++    //   this.errors.username.push('用户名存在')
++    // }
+   }
+   
+   hasError() {
