@@ -11,7 +11,7 @@ import {
 } from 'typeorm';
 import {Post} from './Post';
 import {Comment} from './Comment';
-import {getDatabaseConnection} from 'lib/getDatabaseConnection';
+// import {getDatabaseConnection} from '../../lib/getDatabaseConnection';
 
 const _ = require('lodash');
 import md5 from 'md5'
@@ -64,10 +64,10 @@ export class User {
     if (password !== confirmPassword) {
       this.errors.confirmPassword.push('两次密码不相同')
     }
-    const users = await (await getDatabaseConnection()).manager.findOne(User, {where: {username: username}})
-    if (users) {
-      this.errors.username.push('用户名存在')
-    }
+    // const users = await (await getDatabaseConnection()).manager.findOne(User, {where: {username: username}})
+    // if (users) {
+    //   this.errors.username.push('用户名存在')
+    // }
   }
   
   hasError() {
