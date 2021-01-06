@@ -1,14 +1,13 @@
 import React,{useCallback} from 'react';
-import {getPost, getPostIds} from '../../lib/posts';
-import {GetStaticProps,GetServerSideProps,NextPage,GetServerSidePropsContext} from 'next';
+import {GetServerSideProps,NextPage,GetServerSidePropsContext} from 'next';
 import { getDatabaseConnection } from 'lib/getDatabaseConnection';
 import { Post } from 'src/entity/Post';
 import axios from 'axios'
 import Link from 'next/link';
 import withSession from '../../lib/whitSession';
 import useForm from '../../hooks/useForm';
-import {log} from 'util';
 import {User} from '../../src/entity/User';
+import marked from 'marked';
 
 type Props = {
   post: Post,
@@ -70,7 +69,8 @@ const postsShow: NextPage<Props> = (props) => {
         </Link>
         </>
       }
-      <article dangerouslySetInnerHTML={   {__html: post?.content}  } />
+      <article className="markdown-body" dangerouslySetInnerHTML={{__html: marked(post.content)}}>
+      </article>
       <h3>评论区</h3>
       <div className="add-comments">
         {form}
