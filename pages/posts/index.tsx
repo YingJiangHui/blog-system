@@ -14,7 +14,7 @@ const PostsPage: NextPage<Posts> = (props) => {
   const {posts,totalPage,totalElement,currentPage} = props;
   const {paging} = usePaging({totalElement,currentPage,totalPage});
   return (<div>
-      <h1>文章列表10{currentPage}/{totalPage}</h1>
+      <h1>文章列表{currentPage}/{totalPage}</h1>
       <div className="article-list">
         <ol>
           {posts?.map((post) => <li key={post.id}>
